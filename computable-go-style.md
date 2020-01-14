@@ -149,7 +149,7 @@ const ENV_VAR = "MY_ENV"
 
 There should be two import groups:
 * Standard library
-* Everything Else
+* Everything else
 
 <table>
 <thead><tr><th>Bad</th><th>Good</th></tr></thead>
@@ -222,7 +222,7 @@ for _, v := range data {
 </td></tr>
 </tbody></table>
 
-And avoiding unnecessary Else's.
+And avoiding unnecessary else's.
 
 <table>
 <thead><tr><th>Bad</th><th>Good</th></tr></thead>
