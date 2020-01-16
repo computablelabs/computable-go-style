@@ -444,8 +444,8 @@ var t []string
 </td></tr>
 </tbody></table>
 
-### Require narrow interfaces
-Require only as narrow an interface as needed.
+### Prefer minimal interfaces
+Prefer using only as narrow an interface as needed.
 
 <table>
 <thead><tr><th>Bad</th><th>Good</th></tr></thead>
