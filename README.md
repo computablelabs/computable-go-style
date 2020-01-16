@@ -475,8 +475,9 @@ func ReadIn(r Reader) {
 }
 ```
 
-We needn't create an entire `File` to use `ReadIn()` when we're only interested in using the `Reader`.
-
 </td></tr>
 </tbody></table>
+
+We needn't create an entire `File` to use `ReadIn()` when we're only interested in using the `Reader`.
+
 
