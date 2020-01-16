@@ -480,4 +480,42 @@ func ReadIn(r Reader) {
 
 We needn't create an entire `File` to use `ReadIn()` when we're only interested in using the `Reader`.
 
+### Defer Close After Confirmed Open
+
+<table>
+<thead><tr><th>Bad</th><th>Good</th></tr></thead>
+<tbody>
+<tr><td>
+
+```go
+func getConfig() (*config, error) {
+  var cfg config
+  configFile, openErr := os.Open(SMART_CONTRACT_CONFIG_PATH)
+
+  defer configFile.Close()
+
+  if openErr != nil {
+    return &cfg, openErr
+  }
+  // ...
+}
+```
+
+</td><td>
+
+```go
+func getConfig() (*config, error) {
+  var cfg config
+  configFile, openErr := os.Open(SMART_CONTRACT_CONFIG_PATH)
+
+  if openErr != nil {
+    return &cfg, openErr
+  }
+  defer configFile.Close()
+  // ...
+}
+```
+
+</td></tr>
+</tbody></table>
 
