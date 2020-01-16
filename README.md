@@ -65,6 +65,19 @@ Our project structure will follow Domain Driven Design as best described by Kat 
 
 Every repository with be accompanied with a `D3.md` featuring Ubiquitous Language that should be enforced by the package structure and actual code itself.
 
+Prefer explicit idiomatic file names as opposed to default DDD naming. e.g.
+
+*Bad*
+```
+/pkg/adding
+--- service.go
+```
+*Good*
+```
+/pkg/adding
+--- beer_adder.go
+```
+
 ## Style
 ### Group Similar Declarations
 
@@ -431,4 +444,78 @@ var t []string
 </td></tr>
 </tbody></table>
 
+### Prefer minimal interfaces
+Prefer using only as narrow an interface as needed.
+
+<table>
+<thead><tr><th>Bad</th><th>Good</th></tr></thead>
+<tbody>
+<tr><td>
+
+```go
+type File interface {
+  io.Closer
+  io.Reader
+  io.ReaderAt
+  io.Seeker
+}
+
+func ReadIn(f File) {
+  b := []byte{}
+  n, err := f.Read(b)
+}
+```
+
+</td><td>
+
+```go
+func ReadIn(r Reader) {
+  b := []byte{}
+  n, err := r.Read(b)
+}
+```
+
+</td></tr>
+</tbody></table>
+
+We needn't create an entire `File` to use `ReadIn()` when we're only interested in using the `Reader`.
+
+### Defer Close After Confirmed Open
+
+<table>
+<thead><tr><th>Bad</th><th>Good</th></tr></thead>
+<tbody>
+<tr><td>
+
+```go
+func getConfig() (*config, error) {
+  var cfg config
+  configFile, openErr := os.Open(SMART_CONTRACT_CONFIG_PATH)
+
+  defer configFile.Close()
+
+  if openErr != nil {
+    return &cfg, openErr
+  }
+  // ...
+}
+```
+
+</td><td>
+
+```go
+func getConfig() (*config, error) {
+  var cfg config
+  configFile, openErr := os.Open(SMART_CONTRACT_CONFIG_PATH)
+
+  if openErr != nil {
+    return &cfg, openErr
+  }
+  defer configFile.Close()
+  // ...
+}
+```
+
+</td></tr>
+</tbody></table>
 
