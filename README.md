@@ -547,9 +547,9 @@ func AddListingHandlers(r Routable, l list.Listor, c projectorhttp.HttpClient, l
 </tbody></table>
 
 ### Constants should be SCREAMING_SNAKE_CASE
-our constants are in SCREAMING_SNAKE_CASE, in lieu of the commonly recommended camelCase. 
-this was done for readability.
-they should never be imported.
+Our constants are in `SCREAMING_SNAKE_CASE`, in lieu of the commonly recommended `camelCase`. 
+This was done for readability.
+They should never be imported.
 <table>
 <thead><tr><th>Bad</th><th>Good</th></tr></thead>
 <tbody>
