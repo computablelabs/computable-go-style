@@ -519,3 +519,55 @@ func getConfig() (*config, error) {
 </td></tr>
 </tbody></table>
 
+### Minimal Method Signatures
+Method signatures should be as minimal as possible. 
+
+When a single letter isn't available, use the shortest sensible two letter variable name. 
+
+<table>
+<thead><tr><th>Bad</th><th>Good</th></tr></thead>
+<tbody>
+<tr><td>
+
+```go
+func AddListingHandlers(router Routable, list list.Listor, client projectorhttp.HttpClient, loggingChannel chan log.Message) Routable {
+  // ...
+}
+```
+
+</td><td>
+
+```go
+func AddListingHandlers(r Routable, l list.Listor, c projectorhttp.HttpClient, lc chan log.Message) Routable {
+  // ...
+}
+```
+
+</td></tr>
+</tbody></table>
+
+### Constants should be SCREAMING_SNAKE_CASE
+Our constants are in `SCREAMING_SNAKE_CASE`, in lieu of the commonly recommended `camelCase`. 
+This was done for readability.
+They should never be imported.
+<table>
+<thead><tr><th>Bad</th><th>Good</th></tr></thead>
+<tbody>
+<tr><td>
+
+```go
+const userId = "userId"
+const slug = "slug"
+const xCorrelationId = "X-Correlation-ID"
+```
+
+</td><td>
+
+```go
+const USER_ID = "userId"
+const SLUG = "slug"
+const X_CORRELATION_ID = "X-Correlation-ID"
+```
+
+</td></tr>
+</tbody></table>
