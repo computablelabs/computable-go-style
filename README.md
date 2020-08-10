@@ -571,3 +571,31 @@ const X_CORRELATION_ID = "X-Correlation-ID"
 
 </td></tr>
 </tbody></table>
+
+### Hexagonal Architecture
+* Our architecture is separated into left, center, right.
+
+* left
+  * application code
+  * http and REST for our API
+  * is free to import center
+  * left must implement interfaces dictated by center
+  * left will drive center
+    * by instantiating aggregates/entities 
+    * by calling methods on center domain object, `-able`'s
+
+* center
+  * where we define aggregates/entities
+  * where we define center domain objects, `-able`'s
+  * where we define our infstracture interfaces, `-or`'s
+  * center is importable by all
+  * center drives right
+  * center imports nothing
+    * prevents circular imports
+    * allows repository mocking
+
+* right
+  * is free to import center
+  * infrastructure we depend on
+  * our repositories
+  * fulfills the `-or` interface as dictated by the center
