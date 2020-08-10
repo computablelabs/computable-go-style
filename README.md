@@ -576,13 +576,13 @@ const X_CORRELATION_ID = "X-Correlation-ID"
 * Our architecture is separated into `Left`, `Center`, `Right`.
 
 * `Left`
-  * Ppplication code
+  * Application code
   * HTTP and REST for our API
   * Is free to import center
   * Must implement interfaces dictated by center
   * Will drive center
-    * by instantiating aggregates/entities 
-    * by calling methods on center domain object, `-able`'s
+    * By instantiating aggregates/entities 
+    * By calling methods on center domain object, `-able`'s
 
 * `Center`
   * Where we define aggregates/entities
@@ -591,8 +591,8 @@ const X_CORRELATION_ID = "X-Correlation-ID"
   * Center is importable by all
   * Center drives right
   * Center imports nothing
-    * prevents circular imports
-    * allows repository mocking
+    * Prevents circular imports
+    * Allows repository mocking
 
 * `Right`
   * Is free to import center
