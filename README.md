@@ -594,8 +594,34 @@ const X_CORRELATION_ID = "X-Correlation-ID"
     * prevents circular imports
     * allows repository mocking
 
-* Right
+* `Right`
   * Is free to import center
   * Is infrastructure we depend on
   * Our repositories
   * Fulfills the `-or` interface as dictated by the center
+
+Example
+```golang
+func registration(able register.Registerable, or register.Registeror) httprouter.Handle {
+	return func(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
+
+		loggor := getChannelLoggor(r)
+		correlationId(r)
+
+		if err := decodeBody(r, able); err != nil {
+			logging.LogError(loggor, err)
+			respondHTTPErr(w, http.StatusBadRequest)
+			return
+		}
+    
+    # left drives center by calling method on the center domain object -able
+		if err := able.Register(or, loggor); err != nil {
+			logging.LogError(loggor, err)
+			respondHTTPErr(w, http.StatusInternalServerError)
+			return
+		}
+
+		respond(w, http.StatusOK, &able)
+	}
+}
+```
