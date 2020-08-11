@@ -580,24 +580,31 @@ const X_CORRELATION_ID = "X-Correlation-ID"
   * HTTP and REST for our API
   * Is free to import center
   * Must implement interfaces dictated by center
-  * Will drive center
+  * Drives the center
     * By instantiating aggregates/entities 
     * By calling methods on center domain object, `-able`'s
 
 * `Center`
   * Where we define aggregates/entities
   * Where we define center domain objects, `-able`'s
-  * Where we define our infstracture interfaces, `-or`'s
-  * Center is importable by all
-  * Center drives right
-  * Center imports nothing
+  * Where we define our infrastructure interfaces, `-or`'s
+    * `-or`'s are interfaces that define the center's ports
+    * Right creates an adapter by fulfilling interfaces defined by these ports
+    * Right and center meet where ports and adapters connect
+  * Is importable by all
+  * Drives right
+  * Imports 3rd party libraries when context encapsulates 3rd party library
+  * Sectioned into Bounded Contexts,
+  * Does not import left or right
     * Prevents circular imports
     * Allows repository mocking
 
 * `Right`
   * Is free to import center
-  * Is infrastructure we depend on
-  * Our repositories
+  * Can be
+    * Infastructure
+    * a Service (e.g. stripe)
+    * a Repository (e.g. Postgres, Dynamo)
   * Fulfills the `-or` interface as dictated by the center
 
 Example
