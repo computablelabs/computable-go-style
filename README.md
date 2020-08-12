@@ -594,7 +594,8 @@ const X_CORRELATION_ID = "X-Correlation-ID"
   * Is importable by all
   * Drives right
   * Imports 3rd party libraries when context encapsulates 3rd party library
-  * Sectioned into Bounded Contexts,
+  * Is sectioned into Bounded Contexts
+    * Contexts don't import each other
   * Does not import left or right
     * Prevents circular imports
     * Allows repository mocking
@@ -603,7 +604,7 @@ const X_CORRELATION_ID = "X-Correlation-ID"
   * Is free to import center
   * Can be
     * Infastructure
-    * a Service (e.g. stripe)
+    * a Service (e.g. Stripe)
     * a Repository (e.g. Postgres, Dynamo)
   * Fulfills the `-or` interface as dictated by the center
 
