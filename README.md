@@ -633,3 +633,23 @@ func registration(able register.Registerable, or register.Registeror) httprouter
 	}
 }
 ```
+
+## Favor descriptive names when multiple amibiguous argument types in method signature
+* When multiple ambiguous arguments of same type in a method signature, use descriptive names
+<table>
+<thead><tr><th>Bad</th><th>Good</th></tr></thead>
+<tbody>
+<tr><td>
+
+```go
+func AddListingHandlers(r Routable, d list.Listor, p list.Listor, ...) Routable {
+```
+
+</td><td>
+
+```go
+func AddListingHandlers(r Routable, dynamo list.Listor, postgres list.Listor, ...) Routable {
+```
+
+</td></tr>
+</tbody></table>
