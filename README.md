@@ -571,3 +571,65 @@ const X_CORRELATION_ID = "X-Correlation-ID"
 
 </td></tr>
 </tbody></table>
+
+### Hexagonal Architecture
+* Our architecture is separated into `Left`, `Center`, `Right`.
+
+* `Left`
+  * Application code
+  * HTTP and REST for our API
+  * Is free to import center
+  * Must implement interfaces dictated by center
+  * Drives the center
+    * By instantiating aggregates/entities 
+    * By calling methods on center domain object, `-able`'s
+
+* `Center`
+  * Where we define aggregates/entities
+  * Where we define center domain objects, `-able`'s
+  * Where we define our infrastructure interfaces, `-or`'s
+    * `-or`'s are interfaces that define the center's ports
+    * Right creates an adapter by fulfilling interfaces defined by these ports
+    * Right and center meet where ports and adapters connect
+  * Is importable by all
+  * Drives right
+  * Imports 3rd party libraries when context encapsulates 3rd party library
+  * Is sectioned into Bounded Contexts
+    * Contexts don't import each other
+  * Does not import left or right
+    * Prevents circular imports
+    * Allows repository mocking
+
+* `Right`
+  * Is free to import center
+  * Can be
+    * Infastructure
+    * a Service (e.g. Stripe)
+    * a Repository (e.g. Postgres, Dynamo)
+  * Fulfills the `-or` interface as dictated by the center
+
+Example
+```golang
+func registration(able register.Registerable, or register.Registeror) httprouter.Handle {
+	return func(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
+
+		loggor := getChannelLoggor(r)
+		correlationId(r)
+
+		if err := decodeBody(r, able); err != nil {
+			logging.LogError(loggor, err)
+			respondHTTPErr(w, http.StatusBadRequest)
+			return
+		}
+    
+    # left drives center by calling method on the center domain object -able
+		if err := able.Register(or, loggor); err != nil {
+			logging.LogError(loggor, err)
+			respondHTTPErr(w, http.StatusInternalServerError)
+			return
+		}
+
+		respond(w, http.StatusOK, &able)
+	}
+}
+```
