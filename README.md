@@ -653,3 +653,34 @@ func AddListingHandlers(r Routable, dynamo list.Listor, postgres list.Listor, ..
 
 </td></tr>
 </tbody></table>
+
+
+## Instantiate the -able during the addition of the handlers
+* Using either a factory method or a composite literal
+<table>
+<thead><tr><th>Bad</th><th>Good</th></tr></thead>
+<tbody>
+<tr><td>
+
+```go
+func AddEnrollmentHandlers(r Routable, e enroll.Enrollor, c fundorhttp.HttpClient, l chan log.Message) Routable {
+	r.POST(enrollmentsRoute.String(), loggorToContext(elapsed(validate(c, doEnroll(enroll.NewEnrollment(), e))), l))
+	r.DELETE(enrollmentsRoute.String(), loggorToContext(elapsed(validate(c, doUnenroll(enroll.NewEnrollment(), e))), l))
+	return r
+}
+```
+
+</td><td>
+
+```go
+func doEnroll(or enroll.Enrollor) httprouter.Handle {
+	return func(w http.ResponseWriter, r *http.Request, p httprouter.Params) {
+    loggor := getChannelLoggor(r)
+    enrollable := enroll.Enrollable{}
+    ...
+	}
+}
+```
+
+</td></tr>
+</tbody></table>
