@@ -655,7 +655,7 @@ func AddListingHandlers(r Routable, dynamo list.Listor, postgres list.Listor, ..
 </tbody></table>
 
 
-## Instantiate the -able during the addition of the handlers
+## Instantiate the -able in the addition of the handlers
 * Using either a factory method or a composite literal
 <table>
 <thead><tr><th>Bad</th><th>Good</th></tr></thead>
@@ -686,7 +686,7 @@ func AddEnrollmentHandlers(r Routable, e enroll.Enrollor, c fundorhttp.HttpClien
 </tbody></table>
 
 ## Separate out variable instantiations
-* for easier of glanceability, separate out var declarations
+* for easier glanceability, separate out var declarations
 <table>
 <thead><tr><th>Bad</th><th>Good</th></tr></thead>
 <tbody>
